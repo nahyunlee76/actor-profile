@@ -75,6 +75,52 @@
     }
     .nav-links a:hover { color: var(--accent); }
 
+    /* 햄버거 버튼 */
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 32px; height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-burger span {
+      display: block;
+      width: 100%; height: 1.5px;
+      background: var(--black);
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* 모바일 드롭다운 */
+    .nav-drawer {
+      display: none;
+      position: fixed;
+      top: 56px; left: 0; right: 0;
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      flex-direction: column;
+      padding: 8px 0 12px;
+      z-index: 99;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      padding: 14px 24px;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lt);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .nav-drawer a:hover { color: var(--accent); }
+
     /* ══════════ HERO ══════════ */
     .hero {
       padding-top: 56px;
@@ -530,7 +576,8 @@
     /* ══════════ RESPONSIVE ══════════ */
     @media (max-width: 680px) {
       nav { padding: 0 20px; }
-      .nav-links { gap: 18px; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
 
       .hero {
         grid-template-columns: 1fr;
@@ -562,7 +609,16 @@
     <a href="#media">영상</a>
     <a href="#contact">연락처</a>
   </div>
+  <button class="nav-burger" id="nav-burger" aria-label="메뉴">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-drawer" id="nav-drawer">
+  <a href="#skills" class="drawer-link">특기</a>
+  <a href="#intro" class="drawer-link">소개</a>
+  <a href="#media" class="drawer-link">영상</a>
+  <a href="#contact" class="drawer-link">연락처</a>
+</div>
 
 
 <!-- ══════════════ HERO ══════════════ -->
@@ -831,6 +887,20 @@
 </div>
 
 <script>
+  // 햄버거 메뉴
+  const burger = document.getElementById('nav-burger');
+  const drawer = document.getElementById('nav-drawer');
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+  document.querySelectorAll('.drawer-link').forEach(a => {
+    a.addEventListener('click', () => {
+      burger.classList.remove('open');
+      drawer.classList.remove('open');
+    });
+  });
+
   // Fade-up
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
