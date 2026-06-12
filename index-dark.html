@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>이나현 — Actor Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black:  #f0ece6;
+      --dark:   #ccc8c2;
+      --gray:   #888;
+      --lt:     #444;
+      --line:   #252525;
+      --bg:     #0e0e0e;
+      --accent: #c9a96e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      line-height: 1.7;
+      word-break: keep-all;
+      overflow-x: hidden;
+    }
+
+    /* ── Fade-up ── */
+    .fu {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fu.on { opacity: 1; transform: none; }
+    .fu-d1 { transition-delay: 0.1s; }
+    .fu-d2 { transition-delay: 0.2s; }
+    .fu-d3 { transition-delay: 0.3s; }
+    .fu-d4 { transition-delay: 0.4s; }
+
+    /* ══════════ NAV ══════════ */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      background: rgba(14,14,14,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+    .nav-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lt);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ══════════ HERO ══════════ */
+    .hero {
+      padding-top: 56px;
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: 48% 52%;
+    }
+
+    .hero-photo {
+      background: #1a1a1a;
+      position: relative;
+      overflow: hidden;
+      min-height: 540px;
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    .hero-info {
+      padding: 56px 52px 56px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 0;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .hero-name-kr {
+      font-size: clamp(3rem, 4.5vw, 5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+    .hero-name-en {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--lt);
+      font-weight: 300;
+      margin-bottom: 48px;
+    }
+
+    .stats {
+      border-top: 1px solid var(--line);
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.8rem;
+    }
+    .stat-k {
+      color: var(--lt);
+      letter-spacing: 0.05em;
+    }
+    .stat-v { font-weight: 500; color: var(--dark); }
+
+    /* ══════════ SECTIONS ══════════ */
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .sec {
+      padding: 80px 0;
+      border-top: 1px solid var(--line);
+    }
+    .sec:first-of-type { border-top: none; }
+
+    .sec-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+    }
+
+    .body-text {
+      font-size: 0.94rem;
+      color: #a8a29a;
+      font-weight: 300;
+      line-height: 2.1;
+    }
+
+    /* ── Skills ── */
+    .skill-list { list-style: none; }
+    .skill-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .skill-item:first-child { border-top: 1px solid var(--line); }
+    .skill-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      padding-top: 3px;
+      min-width: 22px;
+      flex-shrink: 0;
+    }
+    .skill-body { }
+    .skill-title {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+    .skill-desc {
+      font-size: 0.8rem;
+      color: var(--gray);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── Interests ── */
+    .hobby-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .hobby-item {
+      font-size: 0.88rem;
+      color: #a8a29a;
+      font-weight: 300;
+      padding: 16px 0 16px 20px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+      line-height: 1.75;
+    }
+    .hobby-item:first-child { border-top: 1px solid var(--line); }
+    .hobby-item::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* ── Career ── */
+    .career-list { display: flex; flex-direction: column; }
+    .career-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 24px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .career-item:first-child { border-top: 1px solid var(--line); }
+    .career-year {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding-top: 3px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--lt);
+    }
+    .career-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .career-tag {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .career-org {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .career-role {
+      font-size: 0.82rem;
+      color: var(--gray);
+      font-weight: 300;
+    }
+    @media (max-width: 680px) {
+      .career-item { grid-template-columns: 70px 1fr; gap: 16px; }
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    /* ── Video ── */
+    .video-block { margin-bottom: 40px; }
+    .video-block:last-child { margin-bottom: 0; }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      overflow: hidden;
+    }
+    .video-embed iframe,
+    .video-embed video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+      display: block;
+    }
+    .video-caption {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .video-caption-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--dark);
+    }
+    .video-badge {
+      flex-shrink: 0;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--lt);
+      padding: 3px 9px;
+    }
+
+    .yt-thumb {
+      display: block;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #111;
+    }
+    .yt-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.2s;
+    }
+    .yt-thumb:hover img { opacity: 0.75; }
+    .yt-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .video-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 680px) {
+      .video-pair { grid-template-columns: 1fr; }
+    }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+    }
+    .contact-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .contact-item:nth-child(even) {
+      padding-left: 40px;
+      border-left: 1px solid var(--line);
+    }
+    .c-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .c-val {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: var(--dark);
+    }
+    .c-val a {
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.18s;
+    }
+    .c-val a:hover { color: var(--accent); }
+
+    /* ── Photos Gallery ── */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+    .g-item {
+      aspect-ratio: 2 / 3;
+      overflow: hidden;
+      background: #1a1a1a;
+      cursor: pointer;
+    }
+    .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .g-item:hover img { transform: scale(1.04); }
+
+    /* ── Lightbox ── */
+    .lb {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.97);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lb.open { display: flex; }
+    .lb-img {
+      max-width: 92vw;
+      max-height: 92dvh;
+      object-fit: contain;
+    }
+    .lb-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none; border: none;
+      color: rgba(255,255,255,.5);
+      font-size: 1.8rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .lb-close:hover { color: var(--accent); }
+    .lb-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      background: none; border: none;
+      color: rgba(255,255,255,.3);
+      font-size: 2.5rem;
+      cursor: pointer;
+      padding: 0 16px;
+      transition: color 0.18s;
+    }
+    .lb-nav:hover { color: var(--accent); }
+    .lb-prev { left: 0; }
+    .lb-next { right: 0; }
+    .lb-count {
+      position: absolute;
+      bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.3);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    @media (max-width: 680px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: var(--lt);
+      letter-spacing: 0.06em;
+    }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 18px; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: 72vw auto;
+      }
+      .hero-photo { min-height: unset; }
+      .hero-info { padding: 36px 24px 48px; justify-content: flex-start; }
+      .hero-name-kr { font-size: 2.8rem; }
+      .hero-name-en { margin-bottom: 32px; }
+
+      .wrap { padding: 0 24px; }
+      .sec { padding: 60px 0; }
+
+      .contact-grid { grid-template-columns: 1fr; }
+      .contact-item:nth-child(even) { padding-left: 0; border-left: none; }
+
+      footer { padding: 20px 24px; flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <span class="nav-name">이나현 · Lee Nahyun</span>
+  <div class="nav-links">
+    <a href="#intro">소개</a>
+    <a href="#skills">특기</a>
+    <a href="#media">영상</a>
+    <a href="#contact">연락처</a>
+  </div>
+</nav>
+
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+
+  <div class="hero-photo">
+    <img src="img/photo.jpg" alt="이나현" />
+  </div>
+
+  <div class="hero-info">
+    <p class="hero-eyebrow">Actor Profile</p>
+    <h1 class="hero-name-kr">이나현</h1>
+    <p class="hero-name-en">Lee Nahyun</p>
+
+    <div class="stats">
+      <div class="stat-row">
+        <span class="stat-k">생년</span>
+        <span class="stat-v">1993 · 만 32세</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-k">키</span>
+        <span class="stat-v">164 cm</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-k">체중</span>
+        <span class="stat-v">49 kg</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-k">소속사</span>
+        <span class="stat-v">없음 (프리랜서)</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-k">현재 직업</span>
+        <span class="stat-v">IT 백엔드 개발자</span>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════ BODY ══════════════ -->
+<div class="wrap">
+
+  <!-- 사진 -->
+  <div class="sec fu">
+    <p class="sec-label">Photos</p>
+    <div class="gallery-grid">
+      <div class="g-item"><img src="img/photo_01.jpg" alt="이나현 1" /></div>
+      <div class="g-item"><img src="img/photo_02.jpg" alt="이나현 2" /></div>
+      <div class="g-item"><img src="img/photo_03.jpg" alt="이나현 3" /></div>
+      <div class="g-item"><img src="img/photo_04.jpg" alt="이나현 4" /></div>
+      <div class="g-item"><img src="img/photo_05.jpg" alt="이나현 5" /></div>
+      <div class="g-item"><img src="img/photo_06.jpg" alt="이나현 6" /></div>
+      <div class="g-item"><img src="img/photo_07.jpg" alt="이나현 7" /></div>
+      <div class="g-item"><img src="img/photo_08.jpg" alt="이나현 8" /></div>
+      <div class="g-item"><img src="img/photo_09.jpg" alt="이나현 9" /></div>
+      <div class="g-item"><img src="img/photo_10.jpg" alt="이나현 10" /></div>
+      <div class="g-item"><img src="img/photo_11.jpg" alt="이나현 11" /></div>
+      <div class="g-item"><img src="img/photo_12.jpg" alt="이나현 12" /></div>
+      <div class="g-item"><img src="img/photo_13.jpg" alt="이나현 13" /></div>
+      <div class="g-item"><img src="img/photo_14.jpg" alt="이나현 14" /></div>
+      <div class="g-item"><img src="img/photo_15.jpg" alt="이나현 15" /></div>
+      <div class="g-item"><img src="img/photo_16.jpg" alt="이나현 16" /></div>
+      <div class="g-item"><img src="img/photo_17.jpg" alt="이나현 17" /></div>
+    </div>
+  </div>
+
+  <!-- 일상 사진 -->
+  <div class="sec fu">
+    <p class="sec-label">Daily</p>
+    <div class="gallery-grid">
+      <div class="g-item"><img src="img/daily_01.jpg" alt="일상 1" /></div>
+      <div class="g-item"><img src="img/daily_02.jpg" alt="일상 2" /></div>
+      <div class="g-item"><img src="img/daily_03.jpg" alt="일상 3" /></div>
+      <div class="g-item"><img src="img/daily_04.jpg" alt="일상 4" /></div>
+      <div class="g-item"><img src="img/daily_05.jpg" alt="일상 5" /></div>
+      <div class="g-item"><img src="img/daily_06.jpg" alt="일상 6" /></div>
+      <div class="g-item"><img src="img/daily_07.jpg" alt="일상 7" /></div>
+    </div>
+  </div>
+
+  <!-- 특기 -->
+  <div class="sec fu" id="skills">
+    <p class="sec-label">Special Skills</p>
+    <ul class="skill-list">
+      <li class="skill-item fu fu-d1">
+        <span class="skill-num">01</span>
+        <div class="skill-body">
+          <p class="skill-title">네이티브 수준의 경상도 사투리 구사</p>
+        </div>
+      </li>
+      <li class="skill-item fu fu-d2">
+        <span class="skill-num">02</span>
+        <div class="skill-body">
+          <p class="skill-title">현실감 있는 직장인 생활 연기</p>
+          <p class="skill-desc">IT·개발자 전문 용어 및 사무실 뉘앙스를 자연스럽게 소화</p>
+        </div>
+      </li>
+      <li class="skill-item fu fu-d3">
+        <span class="skill-num">03</span>
+        <div class="skill-body">
+          <p class="skill-title">뉴미디어 콘텐츠 제작</p>
+          <p class="skill-desc">유튜브 영상 기획·편집 및 SNS 채널 운영 능숙</p>
+        </div>
+      </li>
+      <li class="skill-item fu fu-d4">
+        <span class="skill-num">04</span>
+        <div class="skill-body">
+          <p class="skill-title">유튜브 웹 예능 출연 2회</p>
+          <p class="skill-desc">카메라 렌즈 및 촬영 현장 분위기에 대한 높은 적응력</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 취미 -->
+  <div class="sec fu">
+    <p class="sec-label">Interests</p>
+    <ul class="hobby-list">
+      <li class="hobby-item fu fu-d1">사람들의 일상적인 행동 패턴 및 대화 습관 관찰하기</li>
+      <li class="hobby-item fu fu-d2">영화·드라마 속 감초 조연 배우들의 연기 분석 및 아카이빙</li>
+    </ul>
+  </div>
+
+  <!-- 경력 및 교육 -->
+  <div class="sec fu">
+    <p class="sec-label">경력 및 교육 사항</p>
+    <div class="career-list">
+      <div class="career-item fu fu-d1">
+        <div class="career-year">
+          <span>2026</span>
+          <span class="career-dot"></span>
+          <span>현재</span>
+        </div>
+        <div class="career-body">
+          <p class="career-tag">교육 / 트레이닝</p>
+          <p class="career-org">오늘의 우리 creative</p>
+          <p class="career-role">매체 연기 과정 · 6개월 수강 중</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 자기소개 -->
+  <div class="sec fu" id="intro">
+    <p class="sec-label">Introduction</p>
+    <p class="body-text">
+      어린 시절부터 배우라는 꿈을 마음 한구석에 품고 있었지만, 지방에 살았던 환경과 스스로에 대한 확신 부족으로 선뜻 도전하지 못했습니다. 그 미련은 늘 후회로 남았고, 성인이 되어 직장 생활을 하던 중 '지금 도전하지 않으면 영원히 후회하겠다'는 생각이 들어 본격적으로 연기학원을 찾았습니다. 비록 시작은 늦었을지라도, 현재는 '가장 나답게 말하는 방법'을 배우며 기본기를 다져나가고 있습니다. 실제로 유튜브 웹 예능에 두 차례 출연하며 카메라 앞에서 나 자신을 자연스럽게 표현하는 감각을 익혔고, 촬영 현장의 흐름을 경험하기도 했습니다. 이러한 경험을 바탕으로, 저는 단순히 화려하게 빛나는 주연만을 좇지 않고 현장에서 필요한 사람, 믿고 맡길 수 있는 배우가 되는 것을 목표로 하고 있습니다.
+    </p>
+  </div>
+
+  <!-- 성격 -->
+  <div class="sec fu">
+    <p class="sec-label">Personality</p>
+    <p class="body-text">
+      가만히 있을 때는 차갑고 도도해 보인다는 인상을 주지만, 먼저 다가가 대화를 나누면 무던하고 털털한 반전 매력을 가지고 있습니다. 직장 생활을 통해 다져진 차분함과 강한 책임감이 특징이며, 새로운 환경과 사람에게 자연스럽게 스며드는 친근함을 동시에 지니고 있습니다. 전형적인 경험주의자로서 다양한 경험과 도전을 즐기며, 높은 회복탄력성을 지니고 있어 실패나 거절에 쉽게 흔들리지 않고 꿋꿋하게 나아가는 단단한 멘탈이 저의 가장 큰 장점입니다.
+    </p>
+  </div>
+
+  <!-- 영상 -->
+  <div class="sec fu" id="media">
+    <p class="sec-label">Media</p>
+
+    <!-- 유튜브 웹예능 -->
+    <div class="video-block fu fu-d1">
+      <a class="yt-thumb" href="https://youtu.be/U2I3mHUVGBI?t=859" target="_blank" rel="noopener noreferrer">
+        <img src="https://img.youtube.com/vi/U2I3mHUVGBI/maxresdefault.jpg" alt="유튜브 웹예능 출연" />
+        <div class="yt-play">
+          <svg viewBox="0 0 68 48" width="68" height="48">
+            <path d="M66.5 7.7a8.5 8.5 0 0 0-6-6C56 0 34 0 34 0S12 0 7.5 1.7a8.5 8.5 0 0 0-6 6C0 12.1 0 24 0 24s0 11.9 1.5 16.3a8.5 8.5 0 0 0 6 6C12 48 34 48 34 48s22 0 26.5-1.7a8.5 8.5 0 0 0 6-6C68 35.9 68 24 68 24s0-11.9-1.5-16.3z" fill="rgba(0,0,0,.7)"/>
+            <path d="M27 34l18-10-18-10v20z" fill="#fff"/>
+          </svg>
+        </div>
+      </a>
+      <div class="video-caption">
+        <span class="video-caption-title">유튜브 웹예능 출연 — 클릭하면 유튜브에서 재생</span>
+        <span class="video-badge">YouTube</span>
+      </div>
+    </div>
+
+    <!-- 연기 영상 -->
+    <div class="video-pair fu fu-d2">
+      <div class="video-block">
+        <div class="video-embed">
+          <video controls preload="metadata">
+            <source src="video/acting_01.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-caption">
+          <span class="video-caption-title">연기 영상 01</span>
+          <span class="video-badge">Acting</span>
+        </div>
+      </div>
+      <div class="video-block">
+        <div class="video-embed">
+          <video controls preload="metadata">
+            <source src="video/acting_02.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="video-caption">
+          <span class="video-caption-title">연기 영상 02</span>
+          <span class="video-badge">Acting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 연락처 -->
+  <div class="sec fu" id="contact">
+    <p class="sec-label">Contact</p>
+    <div class="contact-grid">
+      <div class="contact-item fu fu-d1">
+        <p class="c-label">Email</p>
+        <p class="c-val"><a href="mailto:naehewn@gmail.com">naehewn@gmail.com</a></p>
+      </div>
+      <div class="contact-item fu fu-d2">
+        <p class="c-label">Instagram</p>
+        <p class="c-val"><a href="https://www.instagram.com/naehewn/" target="_blank" rel="noopener">@naehewn</a></p>
+      </div>
+      <div class="contact-item fu fu-d3">
+        <p class="c-label">YouTube</p>
+        <p class="c-val"><a href="https://www.youtube.com/@naehewn" target="_blank" rel="noopener">@naehewn</a></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+
+<footer>
+  <span>이나현 · Lee Nahyun · Actor</span>
+  <span>© 2026</span>
+</footer>
+
+
+<!-- Lightbox -->
+<div class="lb" id="lb">
+  <button class="lb-close" id="lb-close">✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev">‹</button>
+  <img class="lb-img" id="lb-img" src="" alt="" />
+  <button class="lb-nav lb-next" id="lb-next">›</button>
+  <div class="lb-count" id="lb-count"></div>
+</div>
+
+<script>
+  // Fade-up
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+  // Lightbox
+  const items = Array.from(document.querySelectorAll('.g-item img'));
+  const lb    = document.getElementById('lb');
+  const lbImg = document.getElementById('lb-img');
+  const lbCnt = document.getElementById('lb-count');
+  let cur = 0;
+
+  function open(i) {
+    cur = i;
+    lbImg.src = items[i].src;
+    lbCnt.textContent = (i + 1) + ' / ' + items.length;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function nav(d) {
+    cur = (cur + d + items.length) % items.length;
+    lbImg.src = items[cur].src;
+    lbCnt.textContent = (cur + 1) + ' / ' + items.length;
+  }
+
+  items.forEach((img, i) => img.closest('.g-item').addEventListener('click', () => open(i)));
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', () => nav(-1));
+  document.getElementById('lb-next').addEventListener('click', () => nav(1));
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') nav(-1);
+    if (e.key === 'ArrowRight') nav(1);
+  });
+</script>
+
+</body>
+</html>
