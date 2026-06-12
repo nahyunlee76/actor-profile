@@ -381,10 +381,24 @@
     }
     .video-caption {
       margin-top: 12px;
+    }
+    .video-caption-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 12px;
+      margin-bottom: 6px;
+    }
+    .video-desc {
+      font-size: 0.8rem;
+      color: var(--lt);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .video-genre {
+      font-style: normal;
+      color: var(--accent);
+      font-weight: 500;
     }
     .video-caption-title {
       font-size: 0.85rem;
@@ -826,8 +840,11 @@
           </video>
         </div>
         <div class="video-caption">
-          <span class="video-caption-title">연기 영상 01</span>
-          <span class="video-badge">Acting</span>
+          <div class="video-caption-head">
+            <span class="video-caption-title">장기연애, 동거 후 이별</span>
+            <span class="video-badge">Acting</span>
+          </div>
+          <p class="video-desc"><em class="video-genre">[멜로/일상]</em> 장기 연애와 동거 끝에 이별을 맞이하고, 담담하게 짐을 정리해 떠나는 인물</p>
         </div>
       </div>
       <div class="video-block">
@@ -837,8 +854,11 @@
           </video>
         </div>
         <div class="video-caption">
-          <span class="video-caption-title">연기 영상 02</span>
-          <span class="video-badge">Acting</span>
+          <div class="video-caption-head">
+            <span class="video-caption-title">인생이 힘든 중, 남자의 호의를 착각</span>
+            <span class="video-badge">Acting</span>
+          </div>
+          <p class="video-desc"><em class="video-genre">[드라마/감성]</em> 고단한 현실 속에서 상대방의 작은 호의를 호감으로 착각하고 마음을 표하는 인물</p>
         </div>
       </div>
     </div>
