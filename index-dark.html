@@ -344,6 +344,7 @@
     /* ── Video ── */
     .video-block { margin-bottom: 40px; }
     .video-block:last-child { margin-bottom: 0; }
+    .video-intro { max-width: 640px; }
 
     .video-embed {
       position: relative;
@@ -746,8 +747,25 @@
   <div class="sec fu" id="media">
     <p class="sec-label">Media</p>
 
+    <!-- 자기소개 영상 -->
+    <div class="video-block video-intro fu fu-d1">
+      <div class="video-embed">
+        <video controls preload="metadata">
+          <source src="video/intro.mov" type="video/mp4" />
+          <source src="video/intro.mov" type="video/quicktime" />
+        </video>
+      </div>
+      <div class="video-caption">
+        <div class="video-caption-head">
+          <span class="video-caption-title">자기소개</span>
+          <span class="video-badge">Intro</span>
+        </div>
+        <p class="video-desc">이나현 배우 자기소개 영상</p>
+      </div>
+    </div>
+
     <!-- 유튜브 웹예능 -->
-    <div class="video-block fu fu-d1">
+    <div class="video-block fu fu-d2">
       <a class="yt-thumb" href="https://youtu.be/U2I3mHUVGBI?t=859" target="_blank" rel="noopener noreferrer">
         <img src="https://img.youtube.com/vi/U2I3mHUVGBI/maxresdefault.jpg" alt="유튜브 웹예능 출연" />
         <div class="yt-play">
